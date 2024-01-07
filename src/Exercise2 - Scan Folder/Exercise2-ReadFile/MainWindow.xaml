@@ -10,15 +10,32 @@
         <Label Content="Folder Name" HorizontalAlignment="Left" Margin="98,46,0,0" VerticalAlignment="Top" FontSize="22"/>
         <TextBox x:Name="txtPath" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="252,42,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="47" Width="409" FontSize="22"/>
         <Button Content="Browse Files" HorizontalAlignment="Left" Margin="400,110,0,0" VerticalAlignment="Top" Height="28" Width="113" FontSize="16" Click="Button_Click"/>
-        <ListView x:Name="lvShowFiles" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,165,0,0">
+        <ListView x:Name="lvShowFiles" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,165,0,0" MouseDoubleClick="lvShowFiles_MouseDoubleClick" PreviewMouseRightButtonUp="lvShowFiles_PreviewMouseRightButtonUp">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Type}" Header="Type" Width="50"/>
-
+                    <!--Type-->
+                    <GridViewColumn Header="Type" Width="50">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="16" Height="16" Source="{Binding ImagePath}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!--Name-->
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="200"/>
+                    <!--Path-->
                     <GridViewColumn DisplayMemberBinding="{Binding Path}" Header="Path" Width="400"/>
                 </GridView>
             </ListView.View>
+
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Rename" Click="RenameMenuItem_Click"/>
+                    <MenuItem Header="Delete" Click="DeleteMenuItem_Click"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
         </ListView>
 
     </Grid>
