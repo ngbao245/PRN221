@@ -1,0 +1,28 @@
+﻿<Window x:Class="Excercise1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Excercise1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+            <Label Content="BMI Calculator" HorizontalAlignment="Center" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="22" HorizontalContentAlignment="Center" Width="226"/>
+            <Label Content="Height" HorizontalAlignment="Left" Margin="122,129,0,0" VerticalAlignment="Top" FontSize="22" Width="132"/>
+            <Label Content="Weight" HorizontalAlignment="Left" Margin="122,168,0,0" VerticalAlignment="Top" FontSize="22" Width="131"/>
+            <Label Content="BMI" HorizontalAlignment="Left" Margin="122,282,0,0" VerticalAlignment="Top" FontSize="22" Width="131"/>
+            <Label Content="Status" HorizontalAlignment="Left" Margin="122,326,0,0" VerticalAlignment="Top" FontSize="22" Width="131"/>
+            <Label Content="cm" HorizontalAlignment="Left" Margin="335,129,0,0" VerticalAlignment="Top" FontSize="22" Width="77"/>
+            <Label Content="kg" HorizontalAlignment="Left" Margin="335,168,0,0" VerticalAlignment="Top" FontSize="22" Width="77"/>
+            <Button Content="Calculate" Padding="5" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="213,225,0,0" VerticalAlignment="Top" Background="#FF355A9A" FontSize="22" Width="134" Click="Button_Click"/>
+            <Button Content="Clear" Padding="5" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="335,225,0,0" VerticalAlignment="Top" Background="#FF355A9A" FontSize="22" Width="134" Click="Button_Click_1"/>
+            <Label x:Name="lbBMI" Content="BMINumber" HorizontalAlignment="Left" Margin="213,282,0,0" VerticalAlignment="Top" FontSize="22" Width="134" HorizontalContentAlignment="Center"/>
+            <Label x:Name="lbStatus" Content="Status" HorizontalAlignment="Left" Margin="213,326,0,0" VerticalAlignment="Top" FontSize="22" Width="438" FontWeight="Bold"/>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Margin="213,135,0,0" VerticalAlignment="Top">
+                <TextBox x:Name="txtHeight" Text="TextBlock" TextWrapping="Wrap" FontSize="22" Width="117"/>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Margin="213,173,0,0" VerticalAlignment="Top">
+            <TextBox x:Name="txtWeight" Text="TextBlock" TextWrapping="Wrap" FontSize="22" Width="117"/>
+            </Border>
+    </Grid>
+</Window>
