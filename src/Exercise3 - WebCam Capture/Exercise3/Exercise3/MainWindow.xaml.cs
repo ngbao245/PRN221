@@ -8,6 +8,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms.Integration;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using Exercise3.DTOs;
 
 namespace Exercise3
 {
@@ -19,6 +20,8 @@ namespace Exercise3
         private bool isWindowClosed = false;
 
         private static readonly string DEFAULT_PATH = "C:\\Users\\BiBo\\Desktop";
+        private static readonly string TEMP_PATH = "D:\\FPT\\Sem7\\PRN2\\Excercise\\src\\Exercise3 - WebCam Capture\\Exercise3\\Exercise3\\temp\\";
+
         List<ImageClass> imageList = new List<ImageClass>();
 
         public MainWindow()
@@ -66,6 +69,7 @@ namespace Exercise3
                 if (capturedImage.Source is BitmapSource bitmapSource)
                 {
                     string filePath = MyToys.SaveImage(directoryPath, selectedItem, bitmapSource);
+                    MyToys.Temp(selectedItem, bitmapSource);
 
                     imageList.Add(new ImageClass
                     {
@@ -107,7 +111,46 @@ namespace Exercise3
 
         private void UpToDrive_Click(object sender, RoutedEventArgs e)
         {
+            //if (lvImageList.SelectedItem is ImageClass selectedItem)
+            string credentialsPath = "D:\\FPT\\Sem7\\PRN2\\Excercise\\src\\Exercise3 - WebCam Capture\\Exercise3\\Exercise3\\credentials.json";
+            string folderId = "1IVKxzW051jm7OaJ12Lrau4EcJ59eD3zA";
 
+            string[] files = Directory.GetFiles(TEMP_PATH);
+
+            MessageBoxResult result = System.Windows.MessageBox.Show($"Upload {files.Count()} image to Drive?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                foreach (string file in files)
+                {
+                    string imageUploadPath = file;
+                    MyToys.UploadToDrive(credentialsPath, folderId, imageUploadPath);
+                }
+            }
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(TEMP_PATH);
+
+                foreach (var item in files)
+                {
+                    if (File.Exists(item))
+                    {
+                        File.Delete(item);
+                    }
+                    else if (Directory.Exists(item))
+                    {
+                        Directory.Delete(item, true);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
         }
     }
 }

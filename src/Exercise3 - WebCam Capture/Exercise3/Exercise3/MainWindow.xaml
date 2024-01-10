@@ -5,15 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Exercise3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closed="Window_Closed" Closing="Window_Closing">
+        Title="MainWindow" Height="450" Width="800" Closed="Window_Closed">
     <Grid>
-        <WindowsFormsHost x:Name="windowsFormsHost" Margin="384,180,10,0"/>
-        <Image x:Name="capturedImage" HorizontalAlignment="Left" Height="171" Margin="10,63,0,0" VerticalAlignment="Top" Width="361"/>
-        <TextBox Text="gegggweg" x:Name="txtPath" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="301" Height="48" FontSize="20"/>
-        <Button x:Name="btnBrowse" Content=". . ." VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="316,10,0,0" VerticalAlignment="Top" Height="48" Width="48" FontSize="22" Click="btnBrowse_Click"/>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="366,9,0,0" VerticalAlignment="Top" Height="50" Width="212" FontSize="22" Click="btn_Save_Click"/>
-        <Button Content="Capture" HorizontalAlignment="Left" Margin="583,9,0,0" VerticalAlignment="Top" Height="50" Width="211" FontSize="22" Click="Button_Click"/>
-        <ListView x:Name="lvImageList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,243,415,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="57*"/>
+        </Grid.ColumnDefinitions>
+        <WindowsFormsHost x:Name="windowsFormsHost" Margin="154,180,10,0" Grid.Column="3"/>
+        <Image x:Name="capturedImage" HorizontalAlignment="Left" Height="171" Margin="10,63,0,0" VerticalAlignment="Top" Width="361" Grid.ColumnSpan="4"/>
+        <TextBox Text="gegggweg" x:Name="txtPath" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="301" Height="48" FontSize="20" Grid.ColumnSpan="4"/>
+        <Button x:Name="btnBrowse" Content=". . ." VerticalContentAlignment="Top" HorizontalAlignment="Left" Margin="86,10,0,0" VerticalAlignment="Top" Height="48" Width="48" FontSize="22" Click="btnBrowse_Click" Grid.Column="3"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="136,9,0,0" VerticalAlignment="Top" Height="50" Width="212" FontSize="22" Click="btn_Save_Click" Grid.Column="3"/>
+        <Button Content="Capture" HorizontalAlignment="Left" Margin="353,9,0,0" VerticalAlignment="Top" Height="50" Width="211" FontSize="22" Click="Button_Click" Grid.Column="3"/>
+        <ListView x:Name="lvImageList" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,243,415,0" Grid.ColumnSpan="4">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Captured" Width="100">
@@ -34,7 +40,7 @@
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
-        <ComboBox HorizontalAlignment="Left" Margin="366,63,0,0" VerticalAlignment="Top" Width="212" x:Name="cbExtension" FontSize="22">
+        <ComboBox HorizontalAlignment="Left" Margin="136,63,0,0" VerticalAlignment="Top" Width="212" x:Name="cbExtension" FontSize="22" Grid.Column="3">
             <ComboBoxItem Content=".bmp" Tag=".bmp"/>
             <ComboBoxItem Content=".jpg" Tag=".jpg" IsSelected="True"/>
             <ComboBoxItem Content=".png" Tag=".png"/>
