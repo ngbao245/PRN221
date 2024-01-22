@@ -1,0 +1,17 @@
+﻿<Window x:Class="Exercise4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Exercise4"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <DataGrid x:Name="dgvCSV" Margin="0,124,0,0"/>
+        <Button x:Name="btnClick" Content="Display CSV" HorizontalAlignment="Center" Margin="0,24,0,0" VerticalAlignment="Top" Height="50" Width="224" FontSize="22" Click="btnClick_Click"/>
+        <ComboBox x:Name="cbSubject" HorizontalAlignment="Left" Margin="288,97,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button Content="ShowCandidateNumber" HorizontalAlignment="Left" Margin="413,98,0,0" VerticalAlignment="Top" Width="200" Click="btnShowCandidateNumber_Click"/>
+        <Button x:Name="btnClear" Content="Clear" HorizontalAlignment="Left" Margin="563,24,0,0" VerticalAlignment="Top" Height="50" Width="50" BorderBrush="#FFE23232" Background="#FFE23232" Foreground="White" FontWeight="Bold" Click="btnClear_Click"/>
+        <Button x:Name="btnImport" Content="Import" HorizontalAlignment="Left" Margin="35,34,0,0" VerticalAlignment="Top" Click="btnImport_Click"/>
+    </Grid>
+</Window>
