@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CodeInBlue.Entities;
 using Repository.Interfaces;
 using Repository.Models;
 using Service.Interfaces;
@@ -22,5 +23,26 @@ namespace Service.Services
             return _mapper.Map<IEnumerable<CategoryModel>>(categories);
         }
 
+        public bool AddCategory(CategoryModel model)
+        {
+            try
+            {
+                var category = _mapper.Map<Category>(model);
+                _unitOfWork.Category.Insert(category);
+                _unitOfWork.Completed();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateCategory(CategoryModel model)
+        {
+            var category = 
+        }
+
+        //public bool DeleteCategory(int id) { }
     }
 }

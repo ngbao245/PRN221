@@ -1,6 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using CodeInBlue.Models;
 using Repository.Data;
+using AutoMapper;
+using Service.Profiles;
+using Repository.Interfaces;
+using Repository.Repositories;
+using Service.Services;
+using Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +28,24 @@ builder.Services.AddDbContext<Assignment2Context>(options =>
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<AppDBContext>();
 
+// Register services
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<ICustomerService, CustomerService>();
+builder.Services.AddTransient<IOrderDetailService, OrderDetailService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<ISupplierService, SupplierService>();
+
+// Add AutoMapper
+builder.Services.AddScoped<IMapper>(sp =>
+{
+    var config = new MapperConfiguration(cfg =>
+    {
+        cfg.AddProfile(new AutoMapperProfile());
+    });
+    return config.CreateMapper();
+});
 
 var app = builder.Build();
 

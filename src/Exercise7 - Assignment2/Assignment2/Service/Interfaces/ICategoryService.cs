@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Service.Interfaces
 {
-    internal interface ICategoryService
+    public interface ICategoryService
     {
     }
 }
