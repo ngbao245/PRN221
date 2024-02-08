@@ -1,0 +1,21 @@
+﻿@page
+@model CodeInBlue.Pages.UserModel
+@{
+}
+
+<h2 class="text-center">Welcome to your account</h2>
+<div>
+    Full Name: @Model.appUser?.LastName @Model.appUser?.FirstName
+</div>
+<div>
+    First Name: @Model.appUser?.Email
+</div>
+<div>
+    First Name: @Model.appUser?.PhoneNumber
+</div>
+<div>
+    First Name: @Model.appUser?.Address
+</div>
+<div>
+    First Name: @Model.appUser?.CreatedAt.ToString("MM/dd/yyyy")
+</div>
