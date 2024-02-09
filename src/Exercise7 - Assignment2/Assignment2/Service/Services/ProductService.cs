@@ -2,6 +2,7 @@
 using CodeInBlue.Entities;
 using Repository.Interfaces;
 using Repository.Models;
+using Repository.Repositories;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -40,12 +41,36 @@ namespace Service.Services
             {
                 var product = _mapper.Map<Product>(model);
 
-                int maxProductId = _unitOfWork.Product.GetAll().Max(_ => _.ProductId);
+                int maxProductId = _unitOfWork.Product.GetAll().Any() ? _unitOfWork.Product.GetAll().Max(_ => _.ProductId) : 0;
                 product.ProductId = maxProductId + 1;
 
                 _unitOfWork.Product.Insert(product);
                 _unitOfWork.Completed();
                 return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateProduct(ProductModel model)
+        {
+            try
+            {
+                var existingProduct = _unitOfWork.Product.GetAll().FirstOrDefault(_ => _.ProductId.Equals(model.ProductId));
+                if (existingProduct != null)
+                {
+                    existingProduct.ProductName = model.ProductName;
+                    existingProduct.UnitPrice = model.UnitPrice;
+                    existingProduct.QuantityPerUnit = model.QuantityPerUnit;
+                    existingProduct.CategoryId = model.CategoryId;
+
+                    _unitOfWork.Product.Update(existingProduct);
+                    _unitOfWork.Completed();
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {

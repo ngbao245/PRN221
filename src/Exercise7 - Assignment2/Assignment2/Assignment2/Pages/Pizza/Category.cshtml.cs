@@ -30,15 +30,14 @@ namespace Assignment2.Pages.Pizza
             return RedirectToPage();
         }
 
-        //public IActionResult OnPostDelete(int id)
-        //{
-        //    var personToDelete = _dbContext.People.FirstOrDefault(p => p.Id == id);
-        //    if (personToDelete != null)
-        //    {
-        //        _dbContext.People.Remove(personToDelete);
-        //        _dbContext.SaveChanges();
-        //    }
-        //    return RedirectToPage();
-        //}
+        public IActionResult OnPostDelete(int id)
+        {
+            var categoryToDelete = _categoryService.GetAll().FirstOrDefault(p => p.CategoryId.Equals(id));
+            if (categoryToDelete != null)
+            {
+                _categoryService.DeleteCategory(categoryToDelete.CategoryId);
+            }
+            return RedirectToPage();
+        }
     }
 }

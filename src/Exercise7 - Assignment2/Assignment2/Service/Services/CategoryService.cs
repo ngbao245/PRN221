@@ -23,6 +23,12 @@ namespace Service.Services
             return _mapper.Map<IEnumerable<CategoryModel>>(categories);
         }
 
+        public CategoryModel GetCategoryById(int? id)
+        {
+            var category = _unitOfWork.Category.GetAll().FirstOrDefault(c => c.CategoryId == id);
+            return _mapper.Map<CategoryModel>(category);
+        }
+
         public bool AddCategory(CategoryModel model)
         {
             try
@@ -50,7 +56,8 @@ namespace Service.Services
                 _unitOfWork.Category.Delete(categoryToDelete);
                 _unitOfWork.Completed();
                 return true;
-            }else
+            }
+            else
             {
                 return false;
             }

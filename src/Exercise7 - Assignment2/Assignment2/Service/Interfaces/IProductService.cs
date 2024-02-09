@@ -12,5 +12,6 @@ namespace Service.Interfaces
         IEnumerable<ProductModel> GetAll();
         bool AddProduct(ProductModel model);
         bool DeleteProduct(int id);
+        bool UpdateProduct(ProductModel model);
     }
 }

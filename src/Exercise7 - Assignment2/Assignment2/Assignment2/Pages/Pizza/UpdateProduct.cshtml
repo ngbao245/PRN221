@@ -1,0 +1,29 @@
+﻿@page
+@model Assignment2.Pages.Pizza.UpdateProductModel
+
+<div class="container col-md-5 mx-auto rounded border p-3 mt-5">
+    <div class="d-flex justify-content-center">
+        <form method="post" class="col-md-12">
+            <input type="hidden" asp-for="Product.ProductId" />
+            <div class="form-group mb-3">
+                <label for="ProductName">Product Name:</label>
+                <input type="text" asp-for="Product.ProductName" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label for="UnitPrice">Unit Price:</label>
+                <input type="text" asp-for="Product.UnitPrice" class="form-control" />
+            </div>
+            <div class="form-group mb-3">
+                <label for="CategoryId">Category:</label>
+                <select asp-for="Product.CategoryId" class="form-control">
+                    <option value="">-- Select Category --</option>
+                    @foreach (var category in ViewData["Categories"] as List<Repository.Models.CategoryModel>)
+                    {
+                        <option value="@category.CategoryId">@category.CategoryName</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Update</button>
+        </form>
+    </div>
+</div>

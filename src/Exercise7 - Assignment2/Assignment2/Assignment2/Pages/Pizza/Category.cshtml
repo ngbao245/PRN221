@@ -1,35 +1,47 @@
 ﻿@page
 @model Assignment2.Pages.Pizza.CategoryModel
 
-<form method="post">
-    <input type="hidden" asp-for="NewCategory.CategoryId" />
-    Category Name: <input type="text" asp-for="NewCategory.CategoryName" />
-    Description: <input type="text" asp-for="NewCategory.Description" />
-    <button type="submit">Add</button>
-</form>
+<div class="container">
+    <form method="post" class="row">
+        <div class="form-group">
+            <input type="hidden" asp-for="NewCategory.CategoryId" />
+            <div class="row">
+                <div class="form-group">
+                    <label for="CategoryName">Category Name:</label>
+                    <input type="text" asp-for="NewCategory.CategoryName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="Description">Description:</label>
+                    <input type="text" asp-for="NewCategory.Description" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-block w-100" style="margin-top: 10px;">Create New</button>
+        </div>
+    </form>
 
-
-<table class="table">
-    <thead>
-        <tr>
-            @* <th>Id</th> *@
-            <th>Name</th>
-            <th>Age</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (Repository.Models.CategoryModel category in Model.Categories)
-        {
+    <table class="table mt-3">
+        <thead>
             <tr>
-                <td>@category.CategoryName</td>
-                <td>@category.Description</td>
-                <td>
-                    <form method="post">
-                        <button type="submit" asp-page-handler="Delete" asp-route-id="@category.CategoryId">Delete</button>
-                    </form>
-                </td>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.CategoryName</td>
+                    <td>@category.Description</td>
+                    <td>
+                        <form method="post">
+                            <button type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@category.CategoryId">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
