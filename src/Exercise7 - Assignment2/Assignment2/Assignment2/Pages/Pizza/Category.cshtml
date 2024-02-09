@@ -1,0 +1,35 @@
+﻿@page
+@model Assignment2.Pages.Pizza.CategoryModel
+
+<form method="post">
+    <input type="hidden" asp-for="NewCategory.CategoryId" />
+    Category Name: <input type="text" asp-for="NewCategory.CategoryName" />
+    Description: <input type="text" asp-for="NewCategory.Description" />
+    <button type="submit">Add</button>
+</form>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            @* <th>Id</th> *@
+            <th>Name</th>
+            <th>Age</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Repository.Models.CategoryModel category in Model.Categories)
+        {
+            <tr>
+                <td>@category.CategoryName</td>
+                <td>@category.Description</td>
+                <td>
+                    <form method="post">
+                        <button type="submit" asp-page-handler="Delete" asp-route-id="@category.CategoryId">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

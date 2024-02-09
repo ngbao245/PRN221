@@ -16,7 +16,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<AppDBContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("LoginRazorConnection");
-    options.UseSqlServer(connectionString);
+    options.UseSqlServer(connectionString); 
 });
 
 builder.Services.AddDbContext<Assignment2Context>(options =>

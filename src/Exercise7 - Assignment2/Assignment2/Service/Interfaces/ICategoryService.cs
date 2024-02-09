@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Repository.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace Service.Interfaces
 {
     public interface ICategoryService
     {
+        IEnumerable<CategoryModel> GetAll();
+        bool AddCategory(CategoryModel model);
+        bool DeleteCategory(int id);
     }
 }

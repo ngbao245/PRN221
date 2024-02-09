@@ -28,6 +28,10 @@ namespace Service.Services
             try
             {
                 var category = _mapper.Map<Category>(model);
+
+                int maxCategoryId = _unitOfWork.Category.GetAll().Max(_ => _.CategoryId);
+                category.CategoryId = maxCategoryId + 1;
+
                 _unitOfWork.Category.Insert(category);
                 _unitOfWork.Completed();
                 return true;
@@ -38,11 +42,18 @@ namespace Service.Services
             }
         }
 
-        public bool UpdateCategory(CategoryModel model)
+        public bool DeleteCategory(int id)
         {
-            var category = 
+            var categoryToDelete = _unitOfWork.Category.GetAll().FirstOrDefault(_ => _.CategoryId.Equals(id));
+            if (categoryToDelete != null)
+            {
+                _unitOfWork.Category.Delete(categoryToDelete);
+                _unitOfWork.Completed();
+                return true;
+            }else
+            {
+                return false;
+            }
         }
-
-        //public bool DeleteCategory(int id) { }
     }
 }

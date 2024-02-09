@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CodeInBlue.Entities;
+using Repository.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +13,8 @@ namespace Service.Profiles
     {
         public AutoMapperProfile()
         {
-        //CreateMap<AccountModel, Account>().ReverseMap();
-
+            CreateMap<CategoryModel, Category>().ReverseMap();
+            CreateMap<ProductModel, Product>().ReverseMap();
         }
     }
 }
