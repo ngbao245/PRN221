@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace CodeInBlue.Models
+namespace Repository.Entities
 {
     public class ApplicationUser : IdentityUser
     {

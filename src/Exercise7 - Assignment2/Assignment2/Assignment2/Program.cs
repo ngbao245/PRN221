@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using CodeInBlue.Models;
 using Repository.Data;
 using AutoMapper;
 using Service.Profiles;
@@ -7,6 +6,7 @@ using Repository.Interfaces;
 using Repository.Repositories;
 using Service.Services;
 using Service.Interfaces;
+using Repository.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 

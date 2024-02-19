@@ -25,8 +25,9 @@ namespace Service.Services
 
         public CategoryModel GetCategoryById(int? id)
         {
-            var category = _unitOfWork.Category.GetAll().FirstOrDefault(c => c.CategoryId == id);
-            return _mapper.Map<CategoryModel>(category);
+                //var category = _unitOfWork.Category.GetAll().FirstOrDefault(c => c.CategoryId == id);
+                var category = _unitOfWork.Category.GetById(id);
+                return _mapper.Map<CategoryModel>(category);
         }
 
         public bool AddCategory(CategoryModel model)
@@ -50,7 +51,7 @@ namespace Service.Services
 
         public bool DeleteCategory(int id)
         {
-            var categoryToDelete = _unitOfWork.Category.GetAll().FirstOrDefault(_ => _.CategoryId.Equals(id));
+            var categoryToDelete = _unitOfWork.Category.Get(_ => _.CategoryId.Equals(id)).FirstOrDefault();
             if (categoryToDelete != null)
             {
                 _unitOfWork.Category.Delete(categoryToDelete);

@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NuGet.ContentModel;
 using Repository.Data;
 using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +25,16 @@ namespace Repository.Repositories
         public IEnumerable<T> GetAll()
         {
             return _dbSet.ToList();
+        }
+
+        public IEnumerable<T> Get(Expression<Func<T, bool>> expression)
+        {
+            return _dbSet.Where(expression);
+        }
+
+        public T GetById(int? id)
+        {
+            return _dbSet.Find(id);
         }
 
         public void Insert(T entity)

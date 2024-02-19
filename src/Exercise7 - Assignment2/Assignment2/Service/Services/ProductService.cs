@@ -31,7 +31,7 @@ namespace Service.Services
 
         public IEnumerable<ProductModel> SearchByName(string name)
         {
-            var products = _unitOfWork.Product.GetAll().Where(_ => _.ProductName.Contains(name));
+            var products = _unitOfWork.Product.Get(p => p.ProductName.Contains(name));
             return _mapper.Map<IEnumerable<ProductModel>>(products);
         }
 
@@ -41,7 +41,8 @@ namespace Service.Services
             {
                 var product = _mapper.Map<Product>(model);
 
-                int maxProductId = _unitOfWork.Product.GetAll().Any() ? _unitOfWork.Product.GetAll().Max(_ => _.ProductId) : 0;
+                // Get the max ProductId
+                int maxProductId = _unitOfWork.Product.Get(p => true).Any() ? _unitOfWork.Product.Get(p => true).Max(p => p.ProductId) : 0;
                 product.ProductId = maxProductId + 1;
 
                 _unitOfWork.Product.Insert(product);
@@ -58,7 +59,7 @@ namespace Service.Services
         {
             try
             {
-                var existingProduct = _unitOfWork.Product.GetAll().FirstOrDefault(_ => _.ProductId.Equals(model.ProductId));
+                var existingProduct = _unitOfWork.Product.Get(_ => _.ProductId.Equals(model.ProductId)).FirstOrDefault();
                 if (existingProduct != null)
                 {
                     existingProduct.ProductName = model.ProductName;
@@ -80,7 +81,7 @@ namespace Service.Services
 
         public bool DeleteProduct(int id)
         {
-            var productToDelete = _unitOfWork.Product.GetAll().FirstOrDefault(_ => _.ProductId.Equals(id));
+            var productToDelete = _unitOfWork.Product.Get(_ => _.ProductId.Equals(id)).FirstOrDefault();
             if (productToDelete != null)
             {
                 _unitOfWork.Product.Delete(productToDelete);
