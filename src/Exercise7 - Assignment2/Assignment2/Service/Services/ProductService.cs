@@ -25,13 +25,13 @@ namespace Service.Services
 
         public IEnumerable<ProductModel> GetAll()
         {
-            var products = _unitOfWork.Product.GetAll();
+            var products = _unitOfWork.ProductRepository.GetAll();
             return _mapper.Map<IEnumerable<ProductModel>>(products);
         }
 
         public IEnumerable<ProductModel> SearchByName(string name)
         {
-            var products = _unitOfWork.Product.Get(p => p.ProductName.Contains(name));
+            var products = _unitOfWork.ProductRepository.Get(p => p.ProductName.Contains(name));
             return _mapper.Map<IEnumerable<ProductModel>>(products);
         }
 
@@ -42,10 +42,10 @@ namespace Service.Services
                 var product = _mapper.Map<Product>(model);
 
                 // Get the max ProductId
-                int maxProductId = _unitOfWork.Product.Get(p => true).Any() ? _unitOfWork.Product.Get(p => true).Max(p => p.ProductId) : 0;
+                int maxProductId = _unitOfWork.ProductRepository.Get(p => true).Any() ? _unitOfWork.ProductRepository.Get(p => true).Max(p => p.ProductId) : 0;
                 product.ProductId = maxProductId + 1;
 
-                _unitOfWork.Product.Insert(product);
+                _unitOfWork.ProductRepository.Insert(product);
                 _unitOfWork.Completed();
                 return true;
             }
@@ -59,7 +59,7 @@ namespace Service.Services
         {
             try
             {
-                var existingProduct = _unitOfWork.Product.Get(_ => _.ProductId.Equals(model.ProductId)).FirstOrDefault();
+                var existingProduct = _unitOfWork.ProductRepository.Get(_ => _.ProductId.Equals(model.ProductId)).FirstOrDefault();
                 if (existingProduct != null)
                 {
                     existingProduct.ProductName = model.ProductName;
@@ -67,7 +67,7 @@ namespace Service.Services
                     existingProduct.QuantityPerUnit = model.QuantityPerUnit;
                     existingProduct.CategoryId = model.CategoryId;
 
-                    _unitOfWork.Product.Update(existingProduct);
+                    _unitOfWork.ProductRepository.Update(existingProduct);
                     _unitOfWork.Completed();
                     return true;
                 }
@@ -81,10 +81,10 @@ namespace Service.Services
 
         public bool DeleteProduct(int id)
         {
-            var productToDelete = _unitOfWork.Product.Get(_ => _.ProductId.Equals(id)).FirstOrDefault();
+            var productToDelete = _unitOfWork.ProductRepository.Get(_ => _.ProductId.Equals(id)).FirstOrDefault();
             if (productToDelete != null)
             {
-                _unitOfWork.Product.Delete(productToDelete);
+                _unitOfWork.ProductRepository.Delete(productToDelete);
                 _unitOfWork.Completed();
                 return true;
             }

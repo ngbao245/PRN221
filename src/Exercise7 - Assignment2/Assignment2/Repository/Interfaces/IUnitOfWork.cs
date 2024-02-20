@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodeInBlue.Entities;
+using Repository.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +10,12 @@ namespace Repository.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        ICategoryRepository Category { get; }
-        ICustomerRepository Customer { get; }
-        IOrderDetailRepository OrderDetail { get; }
-        IOrderRepository Order { get; }
-        IProductRepository Product { get; }
-        ISupplierRepository Supplier { get; }
+        GenericRepository<Category> CategoryRepository { get; }
+        GenericRepository<Customer> CustomerRepository { get; }
+        GenericRepository<OrderDetail> OrderDetailRepository { get; }
+        GenericRepository<Order> OrderRepository { get; }
+        GenericRepository<Product> ProductRepository { get; }
+        GenericRepository<Supplier> SupplierRepository { get; }
         int Completed();
     }
 }

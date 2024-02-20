@@ -19,14 +19,14 @@ namespace Service.Services
 
         public IEnumerable<CategoryModel> GetAll()
         {
-            var categories = _unitOfWork.Category.GetAll();
+            var categories = _unitOfWork.CategoryRepository.GetAll();
             return _mapper.Map<IEnumerable<CategoryModel>>(categories);
         }
 
         public CategoryModel GetCategoryById(int? id)
         {
                 //var category = _unitOfWork.Category.GetAll().FirstOrDefault(c => c.CategoryId == id);
-                var category = _unitOfWork.Category.GetById(id);
+                var category = _unitOfWork.CategoryRepository.GetById(id);
                 return _mapper.Map<CategoryModel>(category);
         }
 
@@ -36,10 +36,10 @@ namespace Service.Services
             {
                 var category = _mapper.Map<Category>(model);
 
-                int maxCategoryId = _unitOfWork.Category.GetAll().Max(_ => _.CategoryId);
+                int maxCategoryId = _unitOfWork.CategoryRepository.GetAll().Max(_ => _.CategoryId);
                 category.CategoryId = maxCategoryId + 1;
 
-                _unitOfWork.Category.Insert(category);
+                _unitOfWork.CategoryRepository.Insert(category);
                 _unitOfWork.Completed();
                 return true;
             }
@@ -51,10 +51,10 @@ namespace Service.Services
 
         public bool DeleteCategory(int id)
         {
-            var categoryToDelete = _unitOfWork.Category.Get(_ => _.CategoryId.Equals(id)).FirstOrDefault();
+            var categoryToDelete = _unitOfWork.CategoryRepository.Get(_ => _.CategoryId.Equals(id)).FirstOrDefault();
             if (categoryToDelete != null)
             {
-                _unitOfWork.Category.Delete(categoryToDelete);
+                _unitOfWork.CategoryRepository.Delete(categoryToDelete);
                 _unitOfWork.Completed();
                 return true;
             }
