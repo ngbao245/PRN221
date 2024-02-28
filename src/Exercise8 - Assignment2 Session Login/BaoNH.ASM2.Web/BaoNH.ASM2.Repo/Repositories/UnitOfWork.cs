@@ -6,6 +6,8 @@ namespace BaoNH.ASM2.Repo.Repositories
     {
         private readonly LoginSessionContext _context;
         private GenericRepository<User> _userRepository;
+        private GenericRepository<Category> _categoryRepository;
+        private GenericRepository<Product> _productRepository;
 
         public UnitOfWork(LoginSessionContext context)
         {
@@ -17,6 +19,22 @@ namespace BaoNH.ASM2.Repo.Repositories
             get
             {
                 return _userRepository ??= new GenericRepository<User>(_context);
+            }
+        }
+
+        public GenericRepository<Category> CategoryRepository
+        {
+            get
+            {
+                return _categoryRepository ??= new GenericRepository<Category>(_context);
+            }
+        }
+
+        public GenericRepository<Product> ProductRepository
+        {
+            get
+            {
+                return _productRepository ??= new GenericRepository<Product>(_context);
             }
         }
         public int Completed()

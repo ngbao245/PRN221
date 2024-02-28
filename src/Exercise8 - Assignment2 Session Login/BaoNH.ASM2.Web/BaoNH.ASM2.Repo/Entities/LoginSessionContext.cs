@@ -17,6 +17,8 @@ namespace BaoNH.ASM2.Repo.Entities
         }
 
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Product> Products { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

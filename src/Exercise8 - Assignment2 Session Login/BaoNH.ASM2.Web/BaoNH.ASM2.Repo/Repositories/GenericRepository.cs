@@ -15,6 +15,11 @@ namespace BaoNH.ASM2.Repo.Repositories
             _dbSet = context.Set<TEntity>();
         }
 
+        public virtual IEnumerable<TEntity> GetAll()
+        {
+            return _dbSet.ToList();
+        }
+
         // Updated Get method with pagination
         public virtual IEnumerable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,

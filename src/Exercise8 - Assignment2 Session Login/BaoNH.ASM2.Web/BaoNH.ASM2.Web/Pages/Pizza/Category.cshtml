@@ -1,0 +1,54 @@
+﻿@page
+@model BaoNH.ASM2.Web.Pages.Pizza.CategoryModel
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<div class="container">
+    <h1>Categories</h1>
+
+    <form method="post" class="row">
+        <div class="form-group">
+            <input type="hidden" asp-for="NewCategory.CategoryId" />
+            <div class="row">
+                <div class="form-group">
+                    <label asp-for="NewCategory.CategoryName"></label>
+                    <input asp-for="NewCategory.CategoryName" class="form-control" />
+                    <span asp-validation-for="NewCategory.CategoryName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NewCategory.Description"></label>
+                    <input asp-for="NewCategory.Description" class="form-control" />
+                    <span asp-validation-for="NewCategory.Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-block w-100" style="margin-top: 10px;">Create New</button>
+        </div>
+    </form>
+
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model.Categories)
+            {
+                <tr>
+                    <td>@category.CategoryName</td>
+                    <td>@category.Description</td>
+                    <td>
+                        <form method="post" onsubmit="return confirm('Are you sure you want to delete this category?')">
+                            <button type="submit" class="btn btn-danger" asp-page-handler="Delete" asp-route-id="@category.CategoryId">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
