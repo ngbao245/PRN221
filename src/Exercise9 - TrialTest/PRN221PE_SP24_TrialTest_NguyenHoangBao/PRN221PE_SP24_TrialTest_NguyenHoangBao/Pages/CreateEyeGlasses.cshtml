@@ -1,0 +1,46 @@
+﻿@page
+@model CreateEyeGlassModel
+<div> Create new item</div>
+<form method="post" asp-page-handler="Create">
+    <div>
+        <label asp-for="Eyeglass.EyeglassesId"></label>
+        <input asp-for="Eyeglass.EyeglassesId" />
+    </div>
+    <div>
+        <label asp-for="Eyeglass.EyeglassesName"></label>
+        <input asp-for="Eyeglass.EyeglassesName" />
+    </div>
+    <div>
+        <label asp-for="Eyeglass.EyeglassesDescription"></label>
+        <input asp-for="Eyeglass.EyeglassesDescription" />
+    </div>
+    <div>
+        <label asp-for="Eyeglass.FrameColor"></label>
+        <input asp-for="Eyeglass.FrameColor" />
+    </div>
+    <div>
+        <label asp-for="Eyeglass.Price"></label>
+        <input asp-for="Eyeglass.Price" />
+    </div>
+    <div>
+        <label asp-for="Eyeglass.Quantity"></label>
+        <input asp-for="Eyeglass.Quantity" />
+    </div>
+    <div>
+        <label asp-for="Eyeglass.LensTypeId"></label>
+        <select asp-for="Eyeglass.LensTypeId" asp-items="@Model.CategoryOptions">
+            <option value="">-- Select a category --</option>
+        </select>
+    </div>
+
+    @if (ModelState.IsValid == false)
+    {
+        <div class="alert alert-danger" role="alert">
+            @foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+    <button type="submit">Create</button>
+</form>
