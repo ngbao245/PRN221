@@ -1,7 +1,11 @@
 ﻿@page
-@model UpdateEyeGlassModel
-<div> Update new item</div>
-<form method="post" asp-page-handler="Create">
+@model TrialTest2.Pages.UpdateModel
+@{
+}
+
+<h1> Update new eye glasses</h1>
+
+<form method="post" asp-page-handler="Update">
     <div>
         <label asp-for="Eyeglass.EyeglassesName"></label>
         <input asp-for="Eyeglass.EyeglassesName" />
@@ -25,7 +29,6 @@
     <div>
         <label asp-for="Eyeglass.LensTypeId"></label>
         <select asp-for="Eyeglass.LensTypeId" asp-items="@Model.CategoryOptions">
-            <option value="">-- Select a category --</option>
         </select>
     </div>
 

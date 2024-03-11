@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace PRN221PE_SP24_TrialTest_NguyenHoangBao.Pages
+namespace TrialTest2.Pages
 {
     public class PrivacyModel : PageModel
     {

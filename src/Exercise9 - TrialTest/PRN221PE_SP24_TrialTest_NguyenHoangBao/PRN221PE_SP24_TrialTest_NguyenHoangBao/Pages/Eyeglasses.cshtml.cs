@@ -1,73 +1,89 @@
-using Azure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repository.Entities;
 using Repository.Repository;
+using System.Linq.Expressions;
 
-public class EyeglassesModel : PageModel
+namespace TrialTest2.Pages
 {
-    private readonly UnitOfWork _unitOfWork;
+    public class EyeglassesModel : PageModel
+    {
+        private readonly UnitOfWork _unitOfWork;
 
-    public List<Eyeglass> eyeglasses = new List<Eyeglass>();
-    [BindProperty]
-    public int pageIndex { get; set; } = 1;
-    public int totalPage { get; set; } = 0;
-    [BindProperty]
-    public int Price { get; set; }
-    [BindProperty]
-    public string EyeglassesDescription { get; set; }
-    [BindProperty]
-    public int IdToDelete { get; set; }
-    [BindProperty]
-    public int IdToUpdate { get; set; }
+        public List<Eyeglass> eyeglasses = new List<Eyeglass>();
 
-    public EyeglassesModel(UnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-    public void OnGet()
-    {
-        eyeglasses = _unitOfWork.EyeGlassRepository.Get(includeProperties: "LensType", pageIndex: pageIndex, pageSize: 4).ToList();
-        totalPage = (int)Math.Ceiling((double)_unitOfWork.EyeGlassRepository.CountPage() / 4);
-    }
-    
-    public IActionResult OnPostGetList()
-    {
-        eyeglasses = _unitOfWork.EyeGlassRepository.Get(includeProperties: "LensType", pageIndex: pageIndex, pageSize: 4).ToList();
-        totalPage = (int)Math.Ceiling((double)_unitOfWork.EyeGlassRepository.CountPage() / 4);
-        return Page();
-    }
+        [BindProperty]
+        public int PageIndex { get; set; }
+        public int TotalPage { get; set; }
 
-    public IActionResult OnPostSearch()
-    {
-        eyeglasses = _unitOfWork.EyeGlassRepository.Get(x =>
-        (Price == null || x.Price == Price)
-        || (string.IsNullOrEmpty(EyeglassesDescription) || x.EyeglassesDescription.Contains(EyeglassesDescription)),
-        includeProperties: "LensType").ToList();
-        return Page();
-    }
+        [BindProperty]
+        public string Search { get; set; }
 
-    public void OnPostDelete()
-    {
-        var eyeGlassToDelete = _unitOfWork.EyeGlassRepository.GetByID(IdToDelete);
-        if (eyeGlassToDelete != null)
+        [BindProperty]
+        public int IdToDelete { get; set; }
+
+        [BindProperty]
+        public int IdToUpdate { get; set; }
+
+        public EyeglassesModel(UnitOfWork unitOfWork)
         {
-            _unitOfWork.EyeGlassRepository.Delete(eyeGlassToDelete);
-
-            _unitOfWork.Completed();
+            _unitOfWork = unitOfWork;
         }
-        OnGet();
-    }
 
-    public IActionResult OnPostCreate()
-    {
-        return Redirect("/CreateEyeGlasses");
-    }
-    public IActionResult OnPostUpdate()
-    {
-        HttpContext.Session.SetString("IdToUpdate", IdToUpdate.ToString());
-        return Redirect("/UpdateEyeGlasses");
-    }
+        public void OnGet()
+        {
+            ReloadPage();
+        }
 
+        public IActionResult OnPostGetList()
+        {
+            ReloadPage();
+            return Page();
+        }
 
+        public IActionResult OnPostSearch()
+        {
+            if (string.IsNullOrEmpty(Search))
+            {
+                ReloadPage();
+                return Page();
+            }
+            else
+            {
+                eyeglasses = _unitOfWork.EyeGlassRepository.Get(x =>
+                    x.Price.ToString() == Search ||
+                    string.IsNullOrEmpty(x.EyeglassesDescription) || x.EyeglassesDescription.Contains(Search),
+                    includeProperties: "LensType").ToList();
+                TotalPage = (int)Math.Ceiling((double)_unitOfWork.EyeGlassRepository.CountPage() / 4);
+                return Page();
+            }
+        }
+
+        public void OnPostDelete()
+        {
+            var eyeGlassToDelete = _unitOfWork.EyeGlassRepository.GetByID(IdToDelete);
+            if (eyeGlassToDelete != null)
+            {
+                _unitOfWork.EyeGlassRepository.Delete(eyeGlassToDelete);
+                _unitOfWork.Completed();
+            }
+            OnGet();
+        }
+        public IActionResult OnPostUpdate()
+        {
+            HttpContext.Session.SetString("UpdateId", IdToUpdate.ToString());
+            return Redirect("/Update");
+        }
+
+        public IActionResult OnPostCreate()
+        {
+            return Redirect("/Create");
+        }
+
+        private void ReloadPage()
+        {
+            eyeglasses = _unitOfWork.EyeGlassRepository.Get(includeProperties: "LensType", pageIndex: PageIndex, pageSize: 4).ToList();
+            TotalPage = (int)Math.Ceiling((double)_unitOfWork.EyeGlassRepository.CountPage() / 4);
+        }
+    }
 }

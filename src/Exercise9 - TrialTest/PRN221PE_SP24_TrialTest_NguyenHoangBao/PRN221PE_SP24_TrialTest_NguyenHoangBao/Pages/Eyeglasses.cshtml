@@ -1,71 +1,77 @@
 ﻿@page
-@model EyeglassesModel
+@model TrialTest2.Pages.EyeglassesModel
+@{
+}
 
 @if (HttpContext.Session.GetString("Role") == 1.ToString())
 {
     <form method="post" asp-page-handler="Search">
-        Search by Price: <input type="number" asp-for="Price" value=""> <button type="submit" class="btn btn-primary">Search</button>  <br />
-        Search by Description: <input type="text" asp-for="EyeglassesDescription" value=""> <button type="submit" class="btn btn-primary">Search</button>
+        @* Search price: <input type="number" asp-for="SearchPrice" value="" /> <br /> *@
+        Search: <input type="text" asp-for="Search" value="" />
+        <button type="submit">Search</button>
     </form>
+
+    <br />
 
     <form method="post" asp-page-handler="Create">
         <button type="submit">Create</button>
     </form>
 }
-<div>
-    <table>
-        <thead>
-            <tr>
-                <th>Eyeglasses ID</th>
-                <th>EyeglassesName</th>
-                <th>EyeglassesDescription</th>
-                <th>FrameColor</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>CreatedDate</th>
-                <th>LensTypeName</th>
-            </tr>
-        </thead>
 
-        <tbody>
-            @foreach (var eyeglass in Model.eyeglasses)
-            {
-                <tr>
-                    <td>@eyeglass.EyeglassesId</td>
-                    <td>@eyeglass.EyeglassesName</td>
-                    <td>@eyeglass.EyeglassesDescription</td>
-                    <td>@eyeglass.FrameColor</td>
-                    <td>@eyeglass.Price</td>
-                    <td>@eyeglass.Quantity</td>
-                    <td>@eyeglass.CreatedDate</td>
-                    <td>@(eyeglass.LensType?.LensTypeName ?? "Unknown")</td>
-                    @if (HttpContext.Session.GetString("Role") == 1.ToString())
-                    {
+<table>
+    <thead>
+        <tr>
+            <th>EyeglassesId</th>
+            <th>EyeglassesName</th>
+            <th>EyeglassesDescription</th>
+            <th>FrameColor</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>CreatedDate</th>
+            <th>LensTypeName</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var eyeglass in Model.eyeglasses)
+        {
+            <tr>
+                <td>@eyeglass.EyeglassesId</td>
+                <td>@eyeglass.EyeglassesName</td>
+                <td>@eyeglass.EyeglassesDescription</td>
+                <td>@eyeglass.FrameColor</td>
+                <td>@eyeglass.Price</td>
+                <td>@eyeglass.Quantity</td>
+                <td>@eyeglass.CreatedDate</td>
+                <td>@(eyeglass.LensType?.LensTypeName ?? "Unknown")</td>
+                @if (HttpContext.Session.GetString("Role") == 1.ToString())
+                {
                     <td>
-                        <form method="post" asp-page-handler="Delete">
-                            <input type="hidden" asp-for="IdToDelete" value="@eyeglass.EyeglassesId" />
-                            <button type="submit">Delete</button>
+                        <form method="post" asp-page-handler="Update">
+                            <input type="hidden" asp-for="IdToUpdate" value="@eyeglass.EyeglassesId" />
+                            <button type="submit">Update</button>
                         </form>
                     </td>
-                    }
-                    @if (HttpContext.Session.GetString("Role") == 1.ToString())
-                    {
-                        <td>
-                            <form method="post" asp-page-handler="Update">
-                                <input type="hidden" asp-for="IdToUpdate" value="@eyeglass.EyeglassesId" />
-                                <button type="submit">Update</button>
-                            </form>
-                        </td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
+                }
+                @if (HttpContext.Session.GetString("Role") == 1.ToString())
+                {
+                    <td>
+                        <form method="post" asp-page-handler="Delete">
+                        <input type="hidden" asp-for="IdToDelete" value="@eyeglass.EyeglassesId" />
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @for (int i = 1; i <= Model.TotalPage; i++)
+    {
+        <form method="post" style="display: inline" asp-page-handler="GetList">
+            <input type="hidden" asp-for="PageIndex" value="@i" />
+            <button type="submit">@i</button>
+        </form>
+    }
 </div>
-@for (int i = 1; i <= Model.totalPage; i++)
-{
-    <form method="post" style="display: inline" asp-page-handler="GetList">
-        <input type="hidden" asp-for="pageIndex" value="@i" />
-        <button type="submit">@i</button>
-    </form>
-}

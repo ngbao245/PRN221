@@ -22,25 +22,6 @@ namespace Repository.Entities
         public virtual DbSet<LensType> LensTypes { get; set; }
         public virtual DbSet<StoreAccount> StoreAccounts { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(GetConnectionString());
-            }
-        }
-
-        private string GetConnectionString()
-        {
-            IConfiguration config = new ConfigurationBuilder()
-                 .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", true, true)
-                        .Build();
-            var strConn = config["ConnectionStrings:ConnectString"];
-
-            return strConn;
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");

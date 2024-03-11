@@ -1,36 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Entities;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repository.Repository;
-using PRN221PE_SP24_TrialTest_NguyenHoangBao;
 
-public class IndexModel : PageModel
+namespace TrialTest2.Pages
 {
-    private readonly UnitOfWork _unitOfWork;
-
-    [BindProperty]
-    public RequestLoginModel RequestLoginModel { get; set; }
-    public IndexModel(UnitOfWork unitOfWork)
+    public class IndexModel : PageModel
     {
-        _unitOfWork = unitOfWork;
-    }
+        private readonly UnitOfWork _unitOfWork;
 
-    public IActionResult OnPost()
-    {
-        var existLoginAccount = _unitOfWork.StoreAccountRepository.Get
-            (x => x.EmailAddress.Equals(RequestLoginModel.EmailAddress)
-            && x.AccountPassword.Equals(RequestLoginModel.Password)
-            && (x.Role == 1 || x.Role == 2)).FirstOrDefault();
-        if (existLoginAccount != null)
+        [BindProperty]
+        public LoginModel LoginModel { get; set; }
+
+        public IndexModel(UnitOfWork unitOfWork)
         {
-            HttpContext.Session.SetString("Email", existLoginAccount.EmailAddress);
-            HttpContext.Session.SetString("Role", existLoginAccount.Role.ToString());
-            return RedirectToPage("/Eyeglasses");
+            _unitOfWork = unitOfWork;
         }
-        else
+
+        public IActionResult OnPost()
         {
-            ModelState.AddModelError(string.Empty, "Log in error");
-            return Page();
+            var existAccount = _unitOfWork.StoreAccountRepository.Get(
+                               _ => _.EmailAddress.Equals(LoginModel.EmailAddress) &&
+                               _.AccountPassword.Equals(LoginModel.AccountPassword) &&
+                               (_.Role == 1 || _.Role == 2)).FirstOrDefault();
+
+            if (existAccount != null)
+            {
+                HttpContext.Session.SetString("Email", existAccount.EmailAddress);
+                HttpContext.Session.SetString("Role", existAccount.Role.ToString());
+                return Redirect("/Eyeglasses");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Log in error");
+                return Page();
+            }
         }
-    }
+}
+
+public class LoginModel
+{
+    public string EmailAddress { get; set; }
+    public string AccountPassword { get; set; }
+}
 }

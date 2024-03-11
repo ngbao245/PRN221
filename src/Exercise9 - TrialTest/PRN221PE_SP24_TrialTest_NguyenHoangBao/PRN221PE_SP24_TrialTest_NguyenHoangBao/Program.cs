@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
 builder.Services.AddSession();
 
 builder.Services.AddDbContext<Eyeglasses2024DBContext>(options =>
@@ -13,7 +14,7 @@ builder.Services.AddDbContext<Eyeglasses2024DBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectString"));
 });
 
-builder.Services.AddTransient<UnitOfWork>();
+builder.Services.AddTransient<UnitOfWork>(); 
 
 var app = builder.Build();
 

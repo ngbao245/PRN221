@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace Repository.Entities
+namespace Repository
 {
     public partial class StoreAccount
     {

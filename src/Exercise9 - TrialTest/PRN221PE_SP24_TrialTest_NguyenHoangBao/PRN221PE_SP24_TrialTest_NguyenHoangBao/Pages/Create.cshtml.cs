@@ -4,19 +4,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Repository.Entities;
 using Repository.Repository;
 
-namespace PRN221PE_SP24_TrialTest_NguyenHoangBao.Pages
+namespace TrialTest2.Pages
 {
-    public class CreateEyeGlassModel : PageModel
+    public class CreateModel : PageModel
     {
         private readonly UnitOfWork _unitOfWork;
 
         [BindProperty]
         public Eyeglass Eyeglass { get; set; }
         public SelectList CategoryOptions { get; set; }
-        public CreateEyeGlassModel(UnitOfWork unitOfWork)
+
+        public CreateModel(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            OnGet();
         }
+
         public void OnGet()
         {
             var categories = _unitOfWork.LensTypeRepository.Get().ToList();
@@ -25,6 +28,14 @@ namespace PRN221PE_SP24_TrialTest_NguyenHoangBao.Pages
 
         public IActionResult OnPostCreate()
         {
+            if (string.IsNullOrWhiteSpace(Eyeglass.EyeglassesName) ||
+                string.IsNullOrWhiteSpace(Eyeglass.EyeglassesDescription) ||
+                string.IsNullOrWhiteSpace(Eyeglass.FrameColor) ||
+                CategoryOptions == null)
+            {
+                ModelState.AddModelError(string.Empty, "All fields are required");
+                return Page();
+            }
             if (Eyeglass.Quantity > 999 || Eyeglass.Quantity < 0)
             {
                 ModelState.AddModelError(string.Empty, "Value for Quantity <= 999 and >= 0");
@@ -35,14 +46,10 @@ namespace PRN221PE_SP24_TrialTest_NguyenHoangBao.Pages
                 ModelState.AddModelError(string.Empty, "Value for eyeglasses’ name is greater than 10 characters");
                 return Page();
             }
-            var words = Eyeglass.EyeglassesName.Split(' ');
-            foreach (var word in words)
+            if (Eyeglass.EyeglassesName.Split(' ').Any(word => char.IsLower(word[0])))
             {
-                if (char.IsLower(word[0]))
-                {
-                    ModelState.AddModelError(string.Empty, "Each word of the EyeglassesName must begin with the capital letter");
-                    return Page();// Add only one error for the entire EyeglassesName
-                }
+                ModelState.AddModelError(string.Empty, "Each word of the EyeglassesName must begin with the capital letter");
+                return Page();
             }
             Eyeglass.CreatedDate = DateTime.Now;
 

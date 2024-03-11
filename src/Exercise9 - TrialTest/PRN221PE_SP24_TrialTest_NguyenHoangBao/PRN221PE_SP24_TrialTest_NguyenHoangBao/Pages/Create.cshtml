@@ -1,10 +1,12 @@
 ﻿@page
-@model CreateEyeGlassModel
-<div> Create new item</div>
+@model TrialTest2.Pages.CreateModel
+
+<h1> Create new eye glasses</h1>
+
 <form method="post" asp-page-handler="Create">
     <div>
         <label asp-for="Eyeglass.EyeglassesId"></label>
-        <input asp-for="Eyeglass.EyeglassesId" />
+        <input asp-for="Eyeglass.EyeglassesId" value="0"/>
     </div>
     <div>
         <label asp-for="Eyeglass.EyeglassesName"></label>
@@ -20,7 +22,7 @@
     </div>
     <div>
         <label asp-for="Eyeglass.Price"></label>
-        <input asp-for="Eyeglass.Price" />
+        <input asp-for="Eyeglass.Price" type="number" />
     </div>
     <div>
         <label asp-for="Eyeglass.Quantity"></label>
@@ -29,18 +31,17 @@
     <div>
         <label asp-for="Eyeglass.LensTypeId"></label>
         <select asp-for="Eyeglass.LensTypeId" asp-items="@Model.CategoryOptions">
-            <option value="">-- Select a category --</option>
         </select>
     </div>
-
-    @if (ModelState.IsValid == false)
-    {
-        <div class="alert alert-danger" role="alert">
-            @foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <p>@error.ErrorMessage</p>
-            }
-        </div>
-    }
     <button type="submit">Create</button>
 </form>
+
+@if (ModelState.IsValid == false)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p>@error.ErrorMessage</p>
+        }
+    </div>
+}
