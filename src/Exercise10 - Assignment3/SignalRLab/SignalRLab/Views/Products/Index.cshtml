@@ -1,0 +1,23 @@
+﻿@model IEnumerable<SignalRLab.Models.Products>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Product</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Unit Price</th>
+                <th>Stock Quantity</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</p>
+
